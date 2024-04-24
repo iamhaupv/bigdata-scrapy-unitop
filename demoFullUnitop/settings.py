@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    "demoFullUnitop.pipelines.DemofullunitopPipeline": 300,
    "demoFullUnitop.pipelines.JsonDBUnitopPipeline": 300,
+   "demoFullUnitop.pipelines.MySQLNoDuplicatesPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

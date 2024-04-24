@@ -20,7 +20,7 @@ class FullunitopSpider(scrapy.Spider):
     def parseCourseDetail(self, response):
         item = response.meta['datacourse']
         item['title'] = response.xpath('normalize-space(//h1[@class="course-title"]/text())').get() 
-        item['desc'] = response.xpath('normalize-space(//p[@class="course-desc"]/text())').get() 
+        item['description'] = response.xpath('normalize-space(//p[@class="course-desc"]/text())').get() 
         item['vote'] = response.xpath('normalize-space(//span[@class="num-vote"]/text())').get() 
         item['total'] = response.xpath('normalize-space(//div[@class="total_student"]/text())').get() 
         item['mentor'] = response.xpath('normalize-space(//a[@class="mentor"]/text())').get()
