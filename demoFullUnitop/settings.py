@@ -12,6 +12,7 @@
 MONGO_URI = 'mongodb+srv://phamvanhau692002vip:phamvanhau@cluster0.wwnfvcr.mongodb.net/bigdata?retryWrites=true&w=majority&appName=Cluster0'
 MONGO_DATABASE = 'bigdata'
 
+
 BOT_NAME = "demoFullUnitop"
 
 SPIDER_MODULES = ["demoFullUnitop.spiders"]
@@ -73,6 +74,7 @@ ITEM_PIPELINES = {
    "demoFullUnitop.pipelines.JsonDBUnitopPipeline": 300,
    "demoFullUnitop.pipelines.MySQLNoDuplicatesPipeline": 300,
    "demoFullUnitop.pipelines.MongoDBUnitopPipeline": 300,
+   "demoFullUnitop.pipelines.PostgresNoDuplicatesPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -69,13 +69,13 @@ class MySQLNoDuplicatesPipeline:
 
             ## Define insert statement
             self.cur.execute(""" insert into unitop (courseURL, title, description, vote, total, mentor) values (%s,%s,%s,%s,%s,%s)""", (
-            item["courseURL"],
-            item["title"],
-            item["description"],
-            item["vote"],
-            item["total"],
-            item["mentor"],
-        ))
+                item["courseURL"],
+                item["title"],
+                item["description"],
+                item["vote"],
+                item["total"],
+                item["mentor"],
+            ))
 
             ## Execute insert of data into database
             self.conn.commit()
@@ -153,3 +153,71 @@ class CSVDBUnitopPipeline:
         self.csv_writer.writerow([title, description, vote, total, mentor, courseURL])
 
         return item
+
+# pipelines.py
+
+import psycopg2
+
+class PostgresNoDuplicatesPipeline:
+
+    def __init__(self):
+        ## Connection Details
+        hostname = 'localhost'
+        username = 'postgres'
+        password = '123456789'
+        database = 'unitop'
+
+        ## Create/Connect to database
+        self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+        
+        ## Create cursor, used to execute commands
+        self.cur = self.connection.cursor()
+        
+        ## Create quotes table if none exists
+        self.cur.execute("""
+        CREATE TABLE IF NOT EXISTS unitop(
+            id serial PRIMARY KEY, 
+            courseURL text,
+            title text,
+            description text,
+            vote text,
+            total text,
+            mentor text
+        )
+        """)
+
+    def process_item(self, item, spider):
+
+        ## Check to see if text is already in database 
+        self.cur.execute("select * from unitop where courseURL = %s", (item['courseURL'],))
+        result = self.cur.fetchone()
+
+        ## If it is in DB, create log message
+        if result:
+            spider.logger.warn("Item already in database: %s" % item['courseURL'])
+
+
+        ## If text isn't in the DB, insert data
+        else:
+
+            ## Define insert statement
+            self.cur.execute(""" insert into unitop (courseURL, title, description, vote, total, mentor) values (%s,%s,%s,%s,%s,%s)""", (
+                item["courseURL"],
+                item["title"],
+                item["description"],
+                item["vote"],
+                item["total"],
+                item["mentor"],
+            ))
+
+            ## Execute insert of data into database
+            self.connection.commit()
+        return item
+
+    
+    def close_spider(self, spider):
+
+        ## Close cursor & connection to database 
+        self.cur.close()
+        self.connection.close()
+
