@@ -6,6 +6,11 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+# settings.py
+
+# Cài đặt kết nối MongoDB
+MONGO_URI = 'mongodb+srv://phamvanhau692002vip:phamvanhau@cluster0.wwnfvcr.mongodb.net/bigdata?retryWrites=true&w=majority&appName=Cluster0'
+MONGO_DATABASE = 'bigdata'
 
 BOT_NAME = "demoFullUnitop"
 
@@ -66,6 +71,7 @@ ITEM_PIPELINES = {
    "demoFullUnitop.pipelines.DemofullunitopPipeline": 300,
    "demoFullUnitop.pipelines.JsonDBUnitopPipeline": 300,
    "demoFullUnitop.pipelines.MySQLNoDuplicatesPipeline": 300,
+   "demoFullUnitop.pipelines.MongoDBUnitopPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
