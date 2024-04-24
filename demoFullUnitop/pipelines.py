@@ -117,3 +117,39 @@ class MongoDBUnitopPipeline:
             return item
         except Exception as e:
             raise DropItem(f"Error inserting item: {e}")
+
+import csv
+
+class CSVDBUnitopPipeline:
+    def __init__(self, csv_filename='output.csv'):
+        self.csv_filename = csv_filename
+        self.csv_file = None
+        self.csv_writer = None
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            csv_filename=crawler.settings.get('CSV_FILENAME', 'output.csv')
+        )
+
+    def open_spider(self, spider):
+        self.csv_file = open(self.csv_filename, 'w', newline='', encoding='utf-8')
+        self.csv_writer = csv.writer(self.csv_file, delimiter='$')
+
+    def close_spider(self, spider):
+        if self.csv_file:
+            self.csv_file.close()
+
+    def process_item(self, item, spider):
+        # Lấy các trường thông tin từ mục
+        title = item.get('title', '')
+        description = item.get('description', '')
+        vote = item.get('vote', '')
+        total = item.get('total', '')
+        mentor = item.get('mentor', '')
+        courseURL = item.get('courseURL', '')
+
+        # Ghi thông tin vào tệp CSV
+        self.csv_writer.writerow([title, description, vote, total, mentor, courseURL])
+
+        return item
