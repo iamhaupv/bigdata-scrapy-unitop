@@ -1,3 +1,9 @@
+Link để cào dữ liệu:
+<br/>
+https://unitop.vn/
+<br/>
+Link tham khảo: 
+<br/>
 https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-postgres/
 <br/>
 https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-mysql/
